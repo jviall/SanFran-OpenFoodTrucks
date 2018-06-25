@@ -14,9 +14,11 @@ app.run = function () {
     day = date.getDay(),
     DoW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     results;
+  let req = 'http://data.sfgov.org/resource/bbb8-hzi6.json?$query=select location, applicant as name ' + 
+    'where start24 < \'' + time + '\' and end24 > \'' + time + '\' and dayorder=' + day + 
+    ' order by name'; 
 
-  request('http://data.sfgov.org/resource/bbb8-hzi6.json?$query=select location, applicant as name where start24 < \'' +
-    time + '\' and end24 > \'' + time + '\' and dayorder=' + day + ' order by name', function (error, response, body) {
+  request(req, function (error, response, body) {
     try {
       results = JSON.parse(body); // throws syntax error
 
@@ -89,6 +91,3 @@ app.printPage = function (offset, data) {
 };
 
 app.run();
-
-// to run locally, first install node and npm. then:
-// $ npm install request && node FoodTruckFinder.js
