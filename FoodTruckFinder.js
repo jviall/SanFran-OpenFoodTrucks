@@ -15,11 +15,33 @@ app.run = function () {
 }
 
 app.displayOpenTrucks = function (data) {
-  process.stdout.write('NAME'.padEnd(80) + 'ADDRESS\n-------------------\n');
-  data.forEach(truck => {
-    process.stdout.write(truck.name.padEnd(80) + truck.location + '\n');
+  let offset = 0;
+  app.printMoreTrucks(offset, data);
+
+  process.stdin.setEncoding('utf8');
+  process.stdout.write('Display more trucks? (yes/no) >> ');
+
+  // command line input
+  process.stdin.on('data', function (input) {
+    process.stdin.pause();
+    app.printMoreTrucks(offset++, data);
+    process.stdout.write('Display more trucks? (yes/no) >> ');
+    process.stdin.resume();
   });
 }
+
+app.printMoreTrucks = function (offset, data) {
+  for (let i = 0; i < 10; i++) {
+    let index = offset * 10 + i;
+    if (!data[index]) {
+      process.stdout.write('No more results, exiting.\n');
+      process.exit();
+    }
+    if (i === 0) process.stdout.write('NAME'.padEnd(80) + 'ADDRESS\n-------------------\n');
+    process.stdout.write(data[index].name.padEnd(80) + data[index].location + '\n');
+  }
+}
+
 app.run();
 
 // to run locally, first install node and npm. then:
