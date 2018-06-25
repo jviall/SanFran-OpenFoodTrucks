@@ -10,13 +10,16 @@ let app = {};
    */
 app.run = function () {
   let date = new Date(),
-    time = date.getHours() + ':' + ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes()),
+    hours = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()), 
+    mins = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes()),
     day = date.getDay(),
     DoW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     results;
+
+  // All permits start/end on the hour and minutes mess with comparisons, so just compare hours
   let req = 'http://data.sfgov.org/resource/bbb8-hzi6.json?$query=select location, applicant as name ' + 
-    'where start24 < \'' + time + '\' and end24 > \'' + time + '\' and dayorder=' + day + 
-    ' order by name'; 
+    'where start24 <= \'' + hours + ':00\' and end24 > \'' + hours + ':00\' and dayorder=' + 
+    day + ' order by name'; 
 
   request(req, function (error, response, body) {
     try {
@@ -26,8 +29,8 @@ app.run = function () {
         process.stdout.write("\nNo food trucks are open at this time, exiting.\n");
         process.exit();
       }
-      process.stdout.write('Displaying Food Trucks open at ' + time + ' on ' + DoW[day] + '. (' + results.length + 
-        ' total)\n');
+      process.stdout.write('Displaying Food Trucks open at ' + hours + ':' + mins + ' on ' + DoW[day] + 
+        '. (' + results.length + ' total)\n');
       app.displayOpenTrucks(results);
     }catch(e){
       console.log(e + "\nAn error occurred--exiting.");
