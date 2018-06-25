@@ -23,8 +23,15 @@ app.displayOpenTrucks = function (data) {
 
   // command line input
   process.stdin.on('data', function (input) {
+    input = input.toString().trim().toLowerCase();
     process.stdin.pause();
-    app.printMoreTrucks(offset++, data);
+    if (input === 'no' || input === 'n') {
+      process.stdout.write('Exiting\n');
+      process.exit();
+    }
+    else if (input === 'yes' || input === 'y') {
+      app.printMoreTrucks(++offset, data);
+    }
     process.stdout.write('Display more trucks? (yes/no) >> ');
     process.stdin.resume();
   });
