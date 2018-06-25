@@ -1,6 +1,9 @@
 {
-  "name": "",
-  "version": "",
+  "name": "openfoodtrucks",
+  "version": "0.0.0",
+  "scripts": {
+    "start" : "node FoodTruckFinder.js"
+  },
   "dependencies": {
     "request": "^2.87.0"
   }
