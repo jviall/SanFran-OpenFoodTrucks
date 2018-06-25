@@ -15,7 +15,8 @@ app.run = function () {
     DoW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     results;
 
-  request('http://data.sfgov.org/resource/bbb8-hzi6.json?$query=select location, applicant as name where start24 < \'' + time + '\' and end24 > \'' + time + '\' and dayorder=' + day + ' order by name', function (error, response, body) {
+  request('http://data.sfgov.org/resource/bbb8-hzi6.json?$query=select location, applicant as name where start24 < \'' +
+    time + '\' and end24 > \'' + time + '\' and dayorder=' + day + ' order by name', function (error, response, body) {
     try {
       results = JSON.parse(body); // throws syntax error
 
@@ -23,14 +24,15 @@ app.run = function () {
         process.stdout.write("\nNo food trucks are open at this time, exiting.\n");
         process.exit();
       }
-      process.stdout.write('Displaying Food Trucks open at ' + time + ' on ' + DoW[day] + '. (' + results.length + ' total)\n');
+      process.stdout.write('Displaying Food Trucks open at ' + time + ' on ' + DoW[day] + '. (' + results.length + 
+        ' total)\n');
       app.displayOpenTrucks(results);
     }catch(e){
       console.log(e + "\nAn error occurred--exiting.");
       process.exit(1);
     }
   });
-}
+};
 
 /**
  * Makes the first call to printPage(), handles the command line input, and
@@ -59,7 +61,7 @@ app.displayOpenTrucks = function (data) {
     process.stdout.write('\nDisplay more trucks? (yes/no) >> ');
     process.stdin.resume();
   });
-}
+};
 
 /**
  * Prints 1 page of up to 10 Food trucks' name and location. Exits the
@@ -74,7 +76,9 @@ app.printPage = function (offset, data) {
       process.stdout.write('\nNo more results--exiting.');
       process.exit();
     }
-    if (i === 0) process.stdout.write('NAME'.padEnd(80) + 'ADDRESS\n'.padEnd(95, '-') + '\n');
+    if (i === 0){
+      process.stdout.write('NAME'.padEnd(80) + 'ADDRESS\n'.padEnd(95, '-') + '\n');
+    }
     process.stdout.write(data[index].name.padEnd(80) + data[index].location + '\n');
   }
   // no point in prompting user if no trucks are left to print.
@@ -82,7 +86,7 @@ app.printPage = function (offset, data) {
     process.stdout.write('\nNo more results--exiting.');
     process.exit();
   }
-}
+};
 
 app.run();
 
