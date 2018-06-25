@@ -2,8 +2,10 @@
 This program queries the [public database](https://data.sfgov.org/Economy-and-Community/Mobile-Food-Schedule/jjew-r69b) of Food Trucks in the San Francisco area and displays the trucks open at runtime.
 
 ## Run
-Requires installation of Node and NPM. Run `npm install` to install the project's dependencies.
+Requires installation of Node and NPM. 
 
-Run the command `npm start` within the project directory to run the program.
+* `npm install`   - install npm dependencies
+* `npm start`     - run the program.
+* `npm run lint`  - lint the program with JSHint.
 
 
